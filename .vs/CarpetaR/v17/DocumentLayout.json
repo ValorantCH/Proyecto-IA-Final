@@ -1,0 +1,84 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\templates\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\datos_app\\mensajes.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\datos_app\\estado.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "mensajes.json",
+              "DocumentMoniker": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\datos_app\\mensajes.json",
+              "RelativeDocumentMoniker": "datos_app\\mensajes.json",
+              "ToolTip": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\datos_app\\mensajes.json",
+              "RelativeToolTip": "datos_app\\mensajes.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-30T17:34:20.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "estado.json",
+              "DocumentMoniker": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\datos_app\\estado.json",
+              "RelativeDocumentMoniker": "datos_app\\estado.json",
+              "ToolTip": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\datos_app\\estado.json",
+              "RelativeToolTip": "datos_app\\estado.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-30T17:34:11.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "app.py",
+              "DocumentMoniker": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\app.py",
+              "RelativeDocumentMoniker": "app.py",
+              "ToolTip": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\app.py",
+              "RelativeToolTip": "app.py",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAAAKcAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-06-30T17:33:38.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\templates\\index.html",
+              "RelativeDocumentMoniker": "templates\\index.html",
+              "ToolTip": "\\\\100.95.111.63\\Users\\Admin\\Desktop\\CarpetaR\\templates\\index.html",
+              "RelativeToolTip": "templates\\index.html",
+              "ViewState": "AgIAANoAAAAAAAAAAAAiwOEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-06-30T17:32:11.646Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

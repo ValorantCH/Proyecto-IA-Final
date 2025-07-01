@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Sincronización Local</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --shadow-glow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            background-image: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.2) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            color: var(--text-primary);
+        }
+
+        .columna {
+            flex: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .columna::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: var(--primary-gradient);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .columna:hover::before {
+                opacity: 1;
+            }
+
+            .columna:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-glow);
+            }
+
+        h2 {
+            margin: 0 0 24px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+            h2::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            }
+
+        form {
+            margin-bottom: 28px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+            form:hover {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+            input[type="text"]:focus, input[type="file"]:focus {
+                outline: none;
+                border-color: #667eea;
+                background: rgba(255, 255, 255, 0.08);
+                box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            }
+
+        input[type="file"] {
+            cursor: pointer;
+            position: relative;
+        }
+
+            input[type="file"]::file-selector-button {
+                background: var(--primary-gradient);
+                border: none;
+                padding: 12px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                margin-right: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+                input[type="file"]::file-selector-button:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                }
+
+        button {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s ease;
+            }
+
+            button:hover::before {
+                left: 100%;
+            }
+
+            button[type="submit"] {
+                background: var(--primary-gradient);
+                color: white;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            }
+
+                button[type="submit"]:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+                }
+
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border-radius: 12px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            backdrop-filter: blur(10px);
+            max-height: 300px;
+        }
+
+            pre::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            pre::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 3px;
+            }
+
+            pre::-webkit-scrollbar-thumb {
+                background: var(--primary-gradient);
+                border-radius: 3px;
+            }
+
+        .hidden {
+            display: none;
+        }
+
+        .download-buttons {
+            margin-bottom: 28px;
+        }
+
+            .download-buttons h2 {
+                margin-bottom: 20px;
+            }
+
+            .download-buttons a {
+                display: block;
+                margin-bottom: 12px;
+                text-align: center;
+                background: var(--success-gradient);
+                color: white;
+                text-decoration: none;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .download-buttons a::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                    transition: left 0.5s ease;
+                }
+
+                .download-buttons a:hover::before {
+                    left: 100%;
+                }
+
+                .download-buttons a:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+                }
+
+                .download-buttons a.disabled {
+                    background: rgba(255, 255, 255, 0.1);
+                    color: var(--text-secondary);
+                    pointer-events: none;
+                    transform: none;
+                    box-shadow: none;
+                }
+
+        .progress-indicator {
+            text-align: center;
+            padding: 20px;
+            background: var(--secondary-gradient);
+            color: white;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .progress-indicator::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        #btn-limpiar-logs {
+            background: var(--danger-gradient);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4);
+        }
+
+            #btn-limpiar-logs:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(250, 112, 154, 0.6);
+            }
+
+        .limpieza-container {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            margin: 24px 0;
+        }
+
+        /* Efectos de entrada */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .columna {
+            animation: fadeInUp 0.6s ease;
+        }
+
+            .columna:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+        /* Estados de conexión */
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+            .connection-status.connected {
+                background: var(--success-gradient);
+                color: white;
+            }
+
+            .connection-status.disconnected {
+                background: var(--danger-gradient);
+                color: white;
+            }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding: 16px;
+                gap: 16px;
+            }
+
+            .columna {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Animaciones para logs */
+        .log-entry-new {
+            background: rgba(102, 126, 234, 0.1);
+            animation: highlightNew 2s ease;
+        }
+
+        @keyframes highlightNew {
+            0% {
+                background: rgba(102, 126, 234, 0.3);
+            }
+
+            100% {
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="connection-status connected" id="connection-status">
+        🟢 Conectado
+    </div>
+
+    <div class="columna">
+        <h2>🎛️ Panel de Control</h2>
+
+        <form id="form-subida">
+            <label for="descripcion">📝 Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" required placeholder="Describe tu imagen...">
+
+            <label for="imagen">🖼️ Seleccionar Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
+
+            <button type="submit">🚀 RECONSTRUIR EVENTO</button>
+        </form>
+
+        <div id="progress-indicator" class="progress-indicator hidden">
+            ⏳ Procesando, esperando respuesta...
+        </div>
+
+        <div class="download-buttons">
+            <h2>📥 Descargar Resultado </h2>
+            <a id="btn-descargar-imgb" href="#" class="disabled">📸 Descargar Última Imagen (B)</a>
+            <a id="btn-descargar-vidb" href="#" class="disabled">🎥 Descargar Último Video (B)</a>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <h2>💬 Promt adicional en tiempo real</h2>
+        <form id="form-mensaje">
+            <input type="text" id="texto-mensaje" placeholder="Escribe tu mensaje aquí..." required>
+            <button type="submit">📤 usar Promt</button>
+        </form>
+
+        <div class="limpieza-container">
+            <h2>⚙️ Administración</h2>
+            <button id="btn-limpiar-logs">🗑️ Limpiar Logs (Estado y Chat)</button>
+        </div>
+    </div>
+
+    <div class="columna">
+        <h2>📊 Estado de la Aplicación (Log)</h2>
+        <pre id="log-estado">🔄 Cargando estado...</pre>
+
+        <div class="section-divider"></div>
+
+        <h2>💭 Registro de Promt de contexto</h2>
+        <pre id="log-mensajes">🔄 Cargando mensajes...</pre>
+    </div>
+
+    <script>
+        // --- ELEMENTOS DEL DOM ---
+        const formSubida = document.getElementById('form-subida');
+        const formMensaje = document.getElementById('form-mensaje');
+        const logEstado = document.getElementById('log-estado');
+        const logMensajes = document.getElementById('log-mensajes');
+        const progressIndicator = document.getElementById('progress-indicator');
+        const btnDescargarImgB = document.getElementById('btn-descargar-imgb');
+        const btnDescargarVidB = document.getElementById('btn-descargar-vidb');
+        const btnLimpiarLogs = document.getElementById('btn-limpiar-logs');
+        const connectionStatus = document.getElementById('connection-status');
+
+        // --- ESTADO DE LA APLICACIÓN ---
+        let isWaitingForVideoB = false;
+        let ultimoVideoBConocido = null;
+        let lastStateContent = '';
+        let lastMessagesContent = '';
+
+        // --- FUNCIONES ---
+        function updateConnectionStatus(connected) {
+            if (connected) {
+                connectionStatus.textContent = '🟢 Conectado';
+                connectionStatus.className = 'connection-status connected';
+            } else {
+                connectionStatus.textContent = '🔴 Desconectado';
+                connectionStatus.className = 'connection-status disconnected';
+            }
+        }
+
+        async function obtenerActualizaciones() {
+            try {
+                const response = await fetch('/obtener_actualizaciones');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+
+                updateConnectionStatus(true);
+
+                const newStateContent = data.estado.map(e => `[${e.timestamp}] ${e.mensaje}`).join('\n');
+                const newMessagesContent = data.mensajes.map(m => m.mensaje).join('\n');
+
+                // Actualizar con efectos si hay cambios
+                if (newStateContent !== lastStateContent) {
+                    logEstado.textContent = newStateContent || '📝 Sin registros de estado';
+                    lastStateContent = newStateContent;
+                }
+
+                if (newMessagesContent !== lastMessagesContent) {
+                    logMensajes.textContent = newMessagesContent || '💬 Sin mensajes';
+                    lastMessagesContent = newMessagesContent;
+                }
+
+                actualizarBotonDescarga(btnDescargarImgB, data.ultimo_imagenB, 'imagenesB', 'Imagen (B)', '📸');
+                actualizarBotonDescarga(btnDescargarVidB, data.ultimo_videoB, 'videosB', 'Video (B)', '🎥');
+
+                if (isWaitingForVideoB) {
+                    if (data.ultimo_videoB && data.ultimo_videoB !== ultimoVideoBConocido) {
+                        isWaitingForVideoB = false;
+                        progressIndicator.classList.add('hidden');
+                        ultimoVideoBConocido = null;
+                    }
+                }
+            } catch (error) {
+                console.error('Error al obtener actualizaciones:', error);
+                updateConnectionStatus(false);
+                logEstado.textContent = '❌ Error de conexión con el servidor.';
+            }
+        }
+
+        function actualizarBotonDescarga(boton, filename, carpeta, tipo, emoji) {
+            if (filename) {
+                boton.href = `/descargar/${carpeta}/${encodeURIComponent(filename)}`;
+                const shortName = filename.length > 20 ? filename.substring(0, 20) + '...' : filename;
+                boton.textContent = `${emoji} Descargar: ${shortName}`;
+                boton.classList.remove('disabled');
+            } else {
+                boton.href = '#';
+                boton.textContent = `${emoji} Sin ${tipo} en carpeta`;
+                boton.classList.add('disabled');
+            }
+        }
+
+        // --- MANEJADORES DE EVENTOS ---
+        formSubida.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(formSubida);
+            const res = await fetch('/obtener_actualizaciones');
+            const dataInicial = await res.json();
+            ultimoVideoBConocido = dataInicial.ultimo_videoB;
+            progressIndicator.classList.remove('hidden');
+            isWaitingForVideoB = true;
+
+            try {
+                const response = await fetch('/subir_imagen', { method: 'POST', body: formData });
+                if (response.ok) {
+                    formSubida.reset();
+                    // Efecto visual de éxito
+                    const submitBtn = formSubida.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = '✅ ¡Subido!';
+                    setTimeout(() => {
+                        submitBtn.textContent = originalText;
+                    }, 2000);
+                } else {
+                    alert('❌ Error al subir el archivo.');
+                    progressIndicator.classList.add('hidden');
+                    isWaitingForVideoB = false;
+                }
+            } catch (error) {
+                alert('❌ Error de red al subir el archivo.');
+                progressIndicator.classList.add('hidden');
+                isWaitingForVideoB = false;
+            }
+        });
+
+        formMensaje.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const textoMensaje = document.getElementById('texto-mensaje');
+            const mensaje = textoMensaje.value;
+            if (!mensaje.trim()) return;
+
+            try {
+                await fetch('/enviar_mensaje', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mensaje: mensaje })
+                });
+                textoMensaje.value = '';
+
+                // Efecto visual de éxito
+                const submitBtn = formMensaje.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = '✅ ¡Enviado!';
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                }, 2000);
+            } catch (error) {
+                alert('❌ Error de red al enviar el mensaje.');
+            }
+        });
+
+        // Evento para el botón de limpiar
+        btnLimpiarLogs.addEventListener('click', async () => {
+            if (confirm('🗑️ ¿Estás seguro de que quieres borrar todos los logs de estado y mensajes? Esta acción no se puede deshacer.')) {
+                try {
+                    const response = await fetch('/limpiar_logs', { method: 'POST' });
+                    if (response.ok) {
+                        // Refresca la vista inmediatamente para ver el cambio
+                        obtenerActualizaciones();
+
+                        // Efecto visual de éxito
+                        const originalText = btnLimpiarLogs.textContent;
+                        btnLimpiarLogs.textContent = '✅ ¡Limpiado!';
+                        setTimeout(() => {
+                            btnLimpiarLogs.textContent = originalText;
+                        }, 2000);
+                    } else {
+                        alert('❌ Error: No se pudieron limpiar los logs en el servidor.');
+                    }
+                } catch (error) {
+                    console.error('Error de red al limpiar logs:', error);
+                    alert('❌ Error de red. No se pudo conectar con el servidor.');
+                }
+            }
+        });
+
+        // --- INICIO ---
+        setInterval(obtenerActualizaciones, 2500);
+        window.onload = obtenerActualizaciones;
+
+        // Efectos adicionales de interacción
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('focus', function () {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            input.addEventListener('blur', function () {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
